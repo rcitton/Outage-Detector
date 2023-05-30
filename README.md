@@ -156,5 +156,5 @@ See details at https://www.pushbullet.com/
 You may test your OutageDetector notification setup issuing the command:
 
 ```
-docker container run -it outage_detector /usr/local/bin/python /usr/local/bin/outage_detector --run boot --notify <mail|iftt|pushbullet>
+docker exec -it outage_detector /usr/local/bin/python /usr/local/bin/outage_detector --run boot --notify <mail|iftt|pushbullet>
 ```
