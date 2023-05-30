@@ -28,7 +28,7 @@ ifttt_name = os.environ.get('IFTTT_NAME', None)
 notification_password = os.environ.get('NOTIFICATION_PASSWORD', None)
 
 # Generic Data
-outage_check  = os.environ.get('OUTAGE_CHECK', 5)
+outage_check  = os.environ.get('OUTAGE_CHECK', "5")
 house_address = os.environ.get('HOUSE_ADDRESS', "")
 crontab       = os.environ.get('CRONTAB', True)
 container     = os.environ.get('CONTAINER', True)
@@ -51,7 +51,9 @@ def initialize():
     global ifttt_name
     global notification_password
     global house_address
+    global outage_check
     global crontab
+    global container
     config_path = os.path.join(os.path.expanduser("~"), ".config/outagedetector")
     if not os.path.exists(config_path):
         os.makedirs(config_path)
@@ -203,13 +205,13 @@ def initialize():
 
     if crontab is False:
         crontab_edit = curate_input("Would you like to setup the script to run automatically "
-                                    "(it will run at boot time and at " + outage_check + "minute intervals)? (y/n)", ("y", "n"))
+                                    "(it will run at boot time and at given minute intervals)? (y/n)", ("y", "n"))
     else:
         crontab_edit = 'y'
 
     if crontab_edit == "y":
         exec_path = os.path.join(os.path.dirname(sys.executable), "outage_detector")
-        cron_scheduling.schedule_job(exec_path, "--run scheduled --notify {}".format(notification_type), config_path, outage_check)
+        cron_scheduling.schedule_job(exec_path, "--run scheduled --notify {}".format(notification_type), config_path, int(outage_check))
         cron_scheduling.schedule_job(exec_path, "--run boot --notify {}".format(notification_type), config_path,
                                      at_boot=True)
 
