@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2023-05-30
+### Added
+- Docker/Podman support
+
 ## [1.1.2] - 2020-07-15
 ### Fixed
 - Python 3.5 keyring bug fixed by @p1r473
