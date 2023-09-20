@@ -1,4 +1,4 @@
-FROM python:3.8-slim-bullseye
+FROM python:3.11.5-slim-bookworm
 ARG BUILD_DATE
 LABEL \
   maintainer="Ruggero Citton <rcitton@gmail.com>" \
