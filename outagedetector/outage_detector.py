@@ -65,6 +65,9 @@ def check_power_and_internet(run, notification_type):
         with open(os.path.join(config_path, "config.json")) as json_file:
             mail_json = json.load(json_file)
             sender = mail_json["sender"]
+            
+             print(f' il sender è {sender} ')
+            
             receivers = mail_json["receivers"]
             smtp_server = mail_json["smtp_server"]
             password = keyring.get_password("Mail-OutageDetector", sender)
