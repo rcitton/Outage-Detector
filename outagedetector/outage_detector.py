@@ -46,19 +46,11 @@ def extract_run_periodicity(scheduled_now, last_scheduled, current_time, last_po
         return last_period
 
 
-def check_power_and_internet(run, notification):
+def check_power_and_internet(run, notification_type):
     if run == "boot":
         just_booted = True
     elif run == "scheduled":
         just_booted = False
-    if notification == "notification" or notification == "ifttt":
-        send_notification = True
-        ifttt_notification = False
-    elif notification == "mail":
-        send_notification = False
-        ifttt_notification = False
-    if notification == "ifttt":
-        ifttt_notification = True
 
     config_path = os.path.join(os.path.expanduser("~"), ".config/outagedetector")
     address_available = False
@@ -68,44 +60,45 @@ def check_power_and_internet(run, notification):
 
     internet_connected = check_internet_connection()
 
-    if not send_notification:
+    try:
+        with open(os.path.join(config_path, "config.json")) as json_file:
+            mail_json = json.load(json_file)
+            sender = mail_json["sender"]
+            receivers = mail_json["receivers"]
+            smtp_server = mail_json["smtp_server"]
+            password = keyring.get_password("Mail-OutageDetector", sender)
+            if password is None:
+                print("Mail password not found, try running initial configuration again!")
+                exit(1)
+            address = mail_json["house_address"]
+    except FileNotFoundError:
+        print("Mail will not be sent, there is no config file in the folder.")
+    except KeyError:
+        print("Config.json file doesn't have all fields (sender, receivers, smtp_server, house address")
+        
+
+    if notification_type == "pushbullet":
+        push_key = keyring.get_password("PushBullet-OutageDetector", "pushbullet")
         try:
             with open(os.path.join(config_path, "config.json")) as json_file:
-                mail_json = json.load(json_file)
-                sender = mail_json["sender"]
-                receivers = mail_json["receivers"]
-                smtp_server = mail_json["smtp_server"]
-                password = keyring.get_password("Mail-OutageDetector", sender)
-                if password is None:
-                    print("Mail password not found, try running initial configuration again!")
-                    exit(1)
-                address = mail_json["house_address"]
+                notification_json = json.load(json_file)
+                address = notification_json["house_address"]
         except FileNotFoundError:
-            print("Mail will not be sent, there is no config file in the folder.")
+            print("Configuration file does not exist, try running the initial configuration again!")
         except KeyError:
-            print("Config.json file doesn't have all fields (sender, receivers, smtp_server, house address")
-    else:
-        if not ifttt_notification:
-            push_key = keyring.get_password("PushBullet-OutageDetector", "pushbullet")
-            try:
-                with open(os.path.join(config_path, "config.json")) as json_file:
-                    notification_json = json.load(json_file)
-                    address = notification_json["house_address"]
-            except FileNotFoundError:
-                print("Configuration file does not exist, try running the initial configuration again!")
-            except KeyError:
-                print("Config.json file doesn't have all fields, try running the initial configuration again!")
-        else:
-            try:
-                with open(os.path.join(config_path, "config.json")) as json_file:
-                    notification_json = json.load(json_file)
-                    ifttt_name = notification_json["ifttt_event"]
-                    address = notification_json["house_address"]
-            except FileNotFoundError:
-                print("Configuration file does not exist, try running the initial configuration again!")
-            except KeyError:
-                print("Config.json file doesn't have all fields, try running the initial configuration again!")
-            api_key = keyring.get_password("IFTTT-OutageDetector", ifttt_name)
+            print("Config.json file doesn't have all fields, try running the initial configuration again!")
+
+    elif notification_type == "ifttt":
+        try:
+            with open(os.path.join(config_path, "config.json")) as json_file:
+                notification_json = json.load(json_file)
+                ifttt_name = notification_json["ifttt_event"]
+                address = notification_json["house_address"]
+        except FileNotFoundError:
+            print("Configuration file does not exist, try running the initial configuration again!")
+        except KeyError:
+            print("Config.json file doesn't have all fields, try running the initial configuration again!")
+        api_key = keyring.get_password("IFTTT-OutageDetector", ifttt_name)
 
     if address:
         address_available = True

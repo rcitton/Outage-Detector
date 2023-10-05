@@ -84,7 +84,7 @@ Use OS or Docker environmet variables to configure the program run.
 |:------------------------|:---------------------|:-------------------------------------------------------------|
 | NOTIFICATION_TYPE       |                      | Notification type: ifttt, pushbullet                         |
 | SENDER_MAIL_ADDRESS     |                      | Sender mail address                                          |
-| RECEIVER_MAIL_ADDRESSES |                      | Receiver mail address                                        |
+| RECEIVER_MAIL_ADDRESSES |           env.mk           | Receiver mail address                                        |
 | SMTP_SERVER             |                      | SMTP Server address                                          |
 | SMTP_SERVER_PORT        |                      | SMTP Server Port                                             |
 | IFTTT_NAME              |                      | IFTTT Name                                                   |
@@ -169,5 +169,5 @@ You may test your OutageDetector notification setup issuing the command:
 docker exec -it outage_detector \
 /usr/local/bin/python /usr/local/bin/outage_detector \
 --run boot \
---notify <mail|iftt|pushbullet>
+--notify <iftt|pushbullet>
 ```
