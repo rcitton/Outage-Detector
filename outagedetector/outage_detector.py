@@ -10,6 +10,29 @@ from outagedetector import pushnotification as push
 from outagedetector import send_mail as mail
 
 
+def ping_status(ip):
+    import subprocess
+    import re
+    ping_process = subprocess.Popen(["ping", "-c", "1", ip], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    ping_msg = str(ping_process.stdout.read())
+    ONLINE = "online"
+    OUTAGE = "outage"
+    UNREACHABLE = "network unreachable"
+
+    if re.search(r'100.0% packet loss|100% packet loss', ping_msg) != None:
+        status = OUTAGE
+    elif re.search(r'Network is unreachable', ping_msg) != None:
+        status = UNREACHABLE
+    else:
+        status = ONLINE
+    match = re.search(r'\/\d{2,4}\.\d{3}\/', ping_msg)
+    if match is not None:
+        ping_time = float(match.group(0).replace("/", ''))
+    else:
+        ping_time = None
+    result = dict(status=status, ping_time=ping_time)
+    return result
+
 def check_internet_connection():
     try:
         socket.create_connection(("www.google.com", 80))    # if connection to google fails, we assume internet is down
@@ -48,7 +71,14 @@ def check_power_and_internet(run, notification):
     timestamp_format = "%d-%m-%Y %H-%M-%S"
     hour_minute_format = "%H:%M"
 
-    internet_connected = check_internet_connection()
+    #internet_connected = check_internet_connection()
+    result = ping_status('google.com')
+    if result['status'] == 'online':
+        internet_connected = True
+    else:
+        internet_connected = False
+    ping_time = result['ping_time']
+
 
     if not send_notification:
         try:
@@ -172,7 +202,7 @@ def check_power_and_internet(run, notification):
             else:
                 mail.send_mail(sender, receivers, "Internet down", notification, smtp_server, password)
 
-    print("Script has run at {}. Internet connected: {}. Just booted: {}.".format(current_timestring,
-                                                                                  internet_connected,
-                                                                                  just_booted))
-
+    print("Script has run at {}. Internet connected: {}. Just booted: {}. Ping Time: {}".format(current_timestring,
+                                                                                         internet_connected,
+                                                                                         just_booted, 
+                                                                                         ping_time))
