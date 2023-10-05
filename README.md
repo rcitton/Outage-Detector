@@ -25,7 +25,7 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     -e 'NOTIFICATION_TYPE'='' \
     -e 'SENDER_MAIL_ADDRESS'='<sender mail address>' \
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
-    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
+    -e 'MAIL_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
@@ -39,7 +39,7 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
     -e 'SMTP_SERVER'='<SMTP server address>' \
     -e 'SMTP_SERVER_PORT'='<SMTP server port>' \
-    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
+    -e 'MAIL_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
@@ -55,7 +55,7 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
     -e 'SMTP_SERVER'='<SMTP server address>' \
     -e 'SMTP_SERVER_PORT'='<SMTP server port>' \
-    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
+    -e 'MAIL_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
@@ -70,7 +70,7 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
     -e 'SMTP_SERVER'='<SMTP server address>' \
     -e 'SMTP_SERVER_PORT'='<SMTP server port>' \
-    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
+    -e 'MAIL_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
@@ -84,9 +84,10 @@ Use OS or Docker environmet variables to configure the program run.
 |:------------------------|:---------------------|:-------------------------------------------------------------|
 | NOTIFICATION_TYPE       |                      | Notification type: ifttt, pushbullet                         |
 | SENDER_MAIL_ADDRESS     |                      | Sender mail address                                          |
-| RECEIVER_MAIL_ADDRESSES |           env.mk           | Receiver mail address                                        |
+| RECEIVER_MAIL_ADDRESSES |                      | Receiver mail address                                        |
 | SMTP_SERVER             |                      | SMTP Server address                                          |
 | SMTP_SERVER_PORT        |                      | SMTP Server Port                                             |
+| MAIL_PASSWORD           |                      | MAIL password                                                | 
 | IFTTT_NAME              |                      | IFTTT Name                                                   |
 | NOTIFICATION_PASSWORD   |                      | Notification token/password                                  |
 | OUTAGE_CHECK            |         5            | Outage check interval  (min)                                 |
