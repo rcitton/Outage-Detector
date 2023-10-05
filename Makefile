@@ -67,6 +67,14 @@ create:
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
 			--name $(CONTAINER) \
+            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
+            --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
+            --env RECEIVER_MAIL_ADDRESSES='$(RECEIVER_MAIL_ADDRESSES)' \
+            --env NOTIFICATION_PASSWORD='$(NOTIFICATION_PASSWORD)' \
+            --env NOTIFICATION_TYPE='$(NOTIFICATION_TYPE)' \
+            --env NOTIFICATION_PASSWORD='$(NOTIFICATION_PASSWORD)' \
+            --env HOUSE_ADDRESS='$(HOUSE_ADDRESS)' \
+            --env TZ'='$(HOUSE_ADDRESS)' \
 			$(IMGNME):$(IMGVRS)
     else
 		$(RUNTIMECT) create -t -i \
@@ -74,6 +82,14 @@ create:
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
 			--name $(CONTAINER) \
+            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
+            --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
+            --env RECEIVER_MAIL_ADDRESSES='$(RECEIVER_MAIL_ADDRESSES)' \
+            --env NOTIFICATION_PASSWORD='$(NOTIFICATION_PASSWORD)' \
+            --env NOTIFICATION_TYPE='$(NOTIFICATION_TYPE)' \
+            --env NOTIFICATION_PASSWORD='$(NOTIFICATION_PASSWORD)' \
+            --env HOUSE_ADDRESS='$(HOUSE_ADDRESS)' \
+            --env TZ'='$(HOUSE_ADDRESS)' \
 			$(IMGNME):$(IMGVRS)
     endif
 
