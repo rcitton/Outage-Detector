@@ -111,6 +111,17 @@ clean:
 connect:
 	$(RUNTIMECT) exec -it $(CONTAINER) bash
 
+pushbullet:
+	$(RUNTIMECT) exec -it $(CONTAINER) \
+		/usr/local/bin/python /usr/local/bin/outage_detector \
+		--run boot \
+		--notify pushbullet
+
+ifttt:
+	$(RUNTIMECT) exec -it $(CONTAINER) \
+		/usr/local/bin/python /usr/local/bin/outage_detector \
+		--run boot \
+		--notify ifttt
 
 ###############################################################################
 #                                                                             #
