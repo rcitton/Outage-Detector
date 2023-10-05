@@ -12,6 +12,9 @@ ENV TZ=Europe/Rome
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# Set prompt
+RUN echo 'export PS1="[⚡ \e[0;34m\h\e[0m \w]# "' >> /root/.bashrc
+
 # Install dependencies
 RUN apt-get update
 RUN apt-get -q -y install --no-install-recommends apt-utils cron vim tzdata
