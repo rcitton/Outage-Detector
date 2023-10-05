@@ -66,7 +66,7 @@ def check_power_and_internet(run, notification_type):
             mail_json = json.load(json_file)
             sender = mail_json["sender"]
             
-             print(f' il sender è {sender} ')
+            print(f' il sender è {sender} ')
             
             receivers = mail_json["receivers"]
             smtp_server = mail_json["smtp_server"]
