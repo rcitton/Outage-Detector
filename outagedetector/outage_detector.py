@@ -60,6 +60,7 @@ def check_power_and_internet(run, notification_type):
 
     internet_connected = check_internet_connection()
 
+    json_data = {}
     try:
         with open(os.path.join(config_path, "config.json")) as json_file:
             mail_json = json.load(json_file)
