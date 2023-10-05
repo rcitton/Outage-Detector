@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 import socket
-
+import time
 import keyring
 
 from outagedetector import pushnotification as push
