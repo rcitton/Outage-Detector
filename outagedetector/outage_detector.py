@@ -75,7 +75,7 @@ def check_power_and_internet(run, notification_type):
         print("Mail will not be sent, there is no config file in the folder.")
     except KeyError:
         print("Config.json file doesn't have all fields (sender, receivers, smtp_server, house address")
-        
+
 
     if notification_type == "pushbullet":
         push_key = keyring.get_password("PushBullet-OutageDetector", "pushbullet")
@@ -87,7 +87,6 @@ def check_power_and_internet(run, notification_type):
             print("Configuration file does not exist, try running the initial configuration again!")
         except KeyError:
             print("Config.json file doesn't have all fields, try running the initial configuration again!")
-
     elif notification_type == "ifttt":
         try:
             with open(os.path.join(config_path, "config.json")) as json_file:
@@ -163,13 +162,13 @@ def check_power_and_internet(run, notification_type):
                 notification += " Address: {}.".format(address)
             print("Power was out for {} to {} minutes at {}".format(min_outage_time, power_outage_time,
                                                                     current_timestring))
-            if send_notification:
-                if ifttt_notification:
-                    push.push_to_ifttt(ifttt_name, api_key, notification)
-                else:
-                    push.push_to_iOS("Power outage", notification, push_key)
-            else:
-                mail.send_mail(sender, receivers, "Power outage", notification, smtp_server, password)
+
+            if notification_type == "pushbullet":
+                push.push_to_iOS("Power outage", notification, push_key)
+            elif notification_type == "ifttt":
+                push.push_to_ifttt(ifttt_name, api_key, notification)
+
+            mail.send_mail(sender, receivers, "Power outage", notification, smtp_server, password)
 
         if not last_power_timestring == last_internet_timestring:
             last_internet_timestamp = datetime.strptime(last_internet_timestring, timestamp_format)
