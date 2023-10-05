@@ -60,7 +60,6 @@ def check_power_and_internet(run, notification_type):
 
     internet_connected = check_internet_connection()
 
-    json_data = {}
     try:
         with open(os.path.join(config_path, "config.json")) as json_file:
             mail_json = json.load(json_file)
@@ -68,7 +67,6 @@ def check_power_and_internet(run, notification_type):
             receivers = mail_json["receivers"]
             smtp_server = mail_json["smtp_server"]
             password = keyring.get_password("Mail-OutageDetector", sender)
-            print(f' la password {password} ')
             if password is None:
                 print("Mail password not found, try running initial configuration again!")
                 exit(1)
@@ -170,7 +168,7 @@ def check_power_and_internet(run, notification_type):
             elif notification_type == "ifttt":
                 push.push_to_ifttt(ifttt_name, api_key, notification)
 
-            password = keyring.get_password("Mail-OutageDetector", json_data["sender"]) 
+            password = keyring.get_password("Mail-OutageDetector", sender) 
             mail.send_mail(sender, receivers, "Power outage", notification, smtp_server, password)
 
         if not last_power_timestring == last_internet_timestring:
@@ -193,7 +191,7 @@ def check_power_and_internet(run, notification_type):
                 else:
                     push.push_to_iOS("Internet down", notification, push_key)
             else:
-                password = keyring.get_password("Mail-OutageDetector", json_data["sender"])
+                password = keyring.get_password("Mail-OutageDetector", sender)
                 mail.send_mail(sender, receivers, "Internet down", notification, smtp_server, password)
 
     print("Script has run at {}. Internet connected: {}. Just booted: {}.".format(current_timestring,
