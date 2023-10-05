@@ -82,7 +82,7 @@ Use OS or Docker environmet variables to configure the program run.
 
 | Variable                | Default Value        | Informations                                                 |
 |:------------------------|:---------------------|:-------------------------------------------------------------|
-| NOTIFICATION_TYPE       |                      | Notification type: ifttt, pushbullet                         |
+| NOTIFICATION_TYPE       |                      | Notification type: none, ifttt, pushbullet                   |
 | SENDER_MAIL_ADDRESS     |                      | Sender mail address                                          |
 | RECEIVER_MAIL_ADDRESSES |                      | Receiver mail address                                        |
 | SMTP_SERVER             |                      | SMTP Server address                                          |
@@ -143,7 +143,7 @@ Create & use app passwords:
     To enter the app password, follow the instructions on your screen. The app password is the 16-character code that generates on your device.
     Select Done.
 
-The generated token is your 'NOTIFICATION_PASSWORD'.
+The generated token is your 'MAIL_PASSWORD'.
 
 
 ## How to setup IFTTT
