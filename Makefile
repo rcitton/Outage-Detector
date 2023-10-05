@@ -30,10 +30,15 @@
 # -------------------------------------------------------------------------------
 
 
+###############################################################################
+#  SET ENV VARIABLES                                                          #
+###############################################################################
+include ./env.mk
+
 
 ###########################
-CONTAINER=outage_detector
-IMGNME=outage_detector
+CONTAINER=outage-detector
+IMGNME=outage-detector
 IMGVRS=1.0.0
 DOCKER=/usr/bin/docker
 PODMAN=/usr/bin/podman
