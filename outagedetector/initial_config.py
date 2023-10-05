@@ -20,6 +20,7 @@ sender_mail_address     = os.environ.get('SENDER_MAIL_ADDRESS', None)
 receiver_mail_addresses = os.environ.get('RECEIVER_MAIL_ADDRESSES', None)
 smtp_server             = os.environ.get('SMTP_SERVER', None)
 port_number             = os.environ.get('SMTP_SERVER_PORT', None)
+mail_password           = os.environ.get('MAIL_PASSWORD', None)
 
 # IFTT
 ifttt_name = os.environ.get('IFTTT_NAME', None)
@@ -85,11 +86,11 @@ def initialize():
                                                             "notification mail from: "))
         json_data["sender"] = sender_mail_address
         
-        if notification_password is None:
+        if mail_password is None:
             keyring.set_password("Mail-OutageDetector", json_data["sender"],
                                 getpass.getpass("Type in your password: "))
         else:
-            keyring.set_password("Mail-OutageDetector", json_data["sender"], notification_password)
+            keyring.set_password("Mail-OutageDetector", json_data["sender"], mail_password)
         
         if receiver_mail_addresses is None:
             receiver_mail_addresses = None
@@ -115,10 +116,10 @@ def initialize():
                     port_number = input("Type in the port number of the SMTP server: ")
                 json_data["port"] = port_number
         
-        if notification_password is None:
+        if mail_password is None:
             password = keyring.get_password("Mail-OutageDetector", json_data["sender"])
         else:
-            password = notification_password
+            password = mail_password
             break
         
         try:
