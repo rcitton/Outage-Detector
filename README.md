@@ -19,10 +19,10 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
 
 2. Run the container 
 
-    ### a. leveraging on GMail notification
+    ### a. leveraging on GMail only
     ```
     docker run -d -t --name=outage_detector \
-    -e 'NOTIFICATION_TYPE'='mail' \
+    -e 'NOTIFICATION_TYPE'='' \
     -e 'SENDER_MAIL_ADDRESS'='<sender mail address>' \
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
     -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
@@ -31,10 +31,10 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     rcitton/outage_detector
     ```
 
-    ### b. leveraging on SMTP notification
+    ### b. leveraging on SMTP notifionlycation
     ```
     docker run -d -t --name=outage_detector \
-    -e 'NOTIFICATION_TYPE'='mail' \
+    -e 'NOTIFICATION_TYPE'='' \
     -e 'SENDER_MAIL_ADDRESS'='<sender mail address (no GMail address)>' \
     -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
     -e 'SMTP_SERVER'='<SMTP server address>' \
@@ -45,22 +45,32 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     rcitton/outage_detector
     ```
 
-    ### c. leveraging on IFTT notification
+    ### c. leveraging on GMail and IFTT notification
     ```
     docker run -d -t --name=outage_detector \
     -e 'NOTIFICATION_TYPE'='ifttt' \
     -e 'IFTTT_NAME'='<iftt name>' \
     -e 'NOTIFICATION_PASSWORD'='<IFTT token password>' \
+    -e 'SENDER_MAIL_ADDRESS'='<sender mail address (no GMail address)>' \
+    -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
+    -e 'SMTP_SERVER'='<SMTP server address>' \
+    -e 'SMTP_SERVER_PORT'='<SMTP server port>' \
+    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
     ```
 
-    ### d. leveraging on 'Pushbullet' notification
+    ### d. leveraging on GMail and 'Pushbullet' notification
     ```
     docker run -d -t --name=outage_detector \
     -e 'NOTIFICATION_TYPE'='pushbullet' \
     -e 'NOTIFICATION_PASSWORD'='<Pushbullet token password>' \
+    -e 'SENDER_MAIL_ADDRESS'='<sender mail address (no GMail address)>' \
+    -e 'RECEIVER_MAIL_ADDRESSES'='<receiver mail address>' \
+    -e 'SMTP_SERVER'='<SMTP server address>' \
+    -e 'SMTP_SERVER_PORT'='<SMTP server port>' \
+    -e 'NOTIFICATION_PASSWORD'='<GMail token password>' \
     -e 'HOUSE_ADDRESS'='<House Address>' \
     -e 'TZ'='Europe/Rome' \
     rcitton/outage_detector
@@ -72,7 +82,7 @@ Use OS or Docker environmet variables to configure the program run.
 
 | Variable                | Default Value        | Informations                                                 |
 |:------------------------|:---------------------|:-------------------------------------------------------------|
-| NOTIFICATION_TYPE       |                      | Notification type: mail, ifttt, pushbullet                   |
+| NOTIFICATION_TYPE       |                      | Notification type: ifttt, pushbullet                         |
 | SENDER_MAIL_ADDRESS     |                      | Sender mail address                                          |
 | RECEIVER_MAIL_ADDRESSES |                      | Receiver mail address                                        |
 | SMTP_SERVER             |                      | SMTP Server address                                          |
@@ -81,7 +91,7 @@ Use OS or Docker environmet variables to configure the program run.
 | NOTIFICATION_PASSWORD   |                      | Notification token/password                                  |
 | OUTAGE_CHECK            |         5            | Outage check interval  (min)                                 |
 | HOUSE_ADDRESS           |                      | Description of the run location                              |
-| TZ                      | Europe/Rome          | Time zone                                                    |
+| TZ                      |     Europe/Rome      | Time zone                                                    |
 
 
 ## How to run it outside container
