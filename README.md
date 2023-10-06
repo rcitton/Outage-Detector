@@ -31,7 +31,7 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     rcitton/outage_detector
     ```
 
-    ### b. leveraging on SMTP notifionlycation
+    ### b. leveraging on SMTP
     ```
     docker run -d -t --name=outage_detector \
     -e 'NOTIFICATION_TYPE'='' \
