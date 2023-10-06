@@ -62,10 +62,11 @@ create:
 	@echo "Create CONTAINER $(CONTAINER)"
     ifeq ($(RUNTIMECT),/usr/bin/docker)
 		$(RUNTIMECT) create -t -i \
+			--name $(CONTAINER) \
 			--hostname $(CONTAINER) \
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
-			--name $(CONTAINER) \
+			--label com.centurylinklabs.watchtower.enable="false" \
             --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
             --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
             --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
@@ -74,14 +75,16 @@ create:
             --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
+            --env OUTAGE_CHECK=5 \
             --env TZ=$(HOUSE_ADDRESS) \
 			$(IMGNME):$(IMGVRS)
     else
 		$(RUNTIMECT) create -t -i \
+			--name $(CONTAINER) \
 			--hostname $(CONTAINER) \
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
-			--name $(CONTAINER) \
+			--label com.centurylinklabs.watchtower.enable="false" \
             --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
             --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
             --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
@@ -90,6 +93,7 @@ create:
             --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
+            --env OUTAGE_CHECK=5 \
             --env TZ=$(HOUSE_ADDRESS) \
 			$(IMGNME):$(IMGVRS)
     endif
@@ -111,19 +115,19 @@ clean:
 connect:
 	$(RUNTIMECT) exec -it $(CONTAINER) bash
 
-none:
+testnone:
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \
 		--notify none
 		
-pushbullet:
+testpb:
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \
 		--notify pushbullet
 
-ifttt:
+testit:
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \

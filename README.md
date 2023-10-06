@@ -76,6 +76,23 @@ Internet downtime is detected if the 2 timestamps written to the file differ and
     rcitton/outage_detector
     ```
 
+## Makefile
+
+To facilitate the setup a makefile is avilable with following functions:
+
+* all........it will perform build, create, start
+* build......it will build the image
+* create.....it will build the container
+* start......it will build the container
+* stop.......it will stop the container
+* clean......it will cleanup the env removing the container and the image
+* connect....it will connect the container
+* testnone...it will test the mail notification
+* testpb.....it will test the mail and pushbullet notification
+* testit.....it will test the mail and ifttt notification
+
+
+
 ## Environment Variables
 
 Use OS or Docker environmet variables to configure the program run.
@@ -106,7 +123,7 @@ pip3 install Outage-Detector
 Alternatively, you can also install the module by cloning this git repo and running setup.py
 
 ```
-git clone https://github.com/fabytm/Outage-Detector.git
+git clone https://github.com/rcitton/Outage-Detector
 python3 setup.py install
 ```
 

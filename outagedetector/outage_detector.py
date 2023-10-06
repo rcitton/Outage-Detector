@@ -185,15 +185,15 @@ def check_power_and_internet(run, notification_type):
                                                                                        current_hour_min)
             if address_available:
                 notification += " Address: {}.".format(address)
-            if send_notification:
-                if ifttt_notification:
-                    push.push_to_ifttt(ifttt_name, api_key, notification)
-                else:
-                    push.push_to_iOS("Internet down", notification, push_key)
-            else:
-                password = keyring.get_password("Mail-OutageDetector", sender)
-                mail.send_mail(sender, receivers, "Internet down", notification, smtp_server, password)
 
-    print("Script has run at {}. Internet connected: {}. Just booted: {}.".format(current_timestring,
+            if notification_type == "pushbullet":
+                push.push_to_iOS("Internet down", notification, push_key)
+            elif notification_type == "ifttt":
+                push.push_to_ifttt(ifttt_name, api_key, notification)
+
+            password = keyring.get_password("Mail-OutageDetector", sender)
+            mail.send_mail(sender, receivers, "Internet down", notification, smtp_server, password)
+
+    print("Outage detector check at {}. Internet connected: {}. Just booted: {}.".format(current_timestring,
                                                                                   internet_connected,
                                                                                   just_booted))
