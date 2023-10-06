@@ -83,7 +83,7 @@ To facilitate the setup a makefile is avilable with following functions:
 * all........it will perform build, create, start
 * build......it will build the image
 * create.....it will build the container
-* start......it will build the container
+* start......it will start the container
 * stop.......it will stop the container
 * clean......it will cleanup the env removing the container and the image
 * connect....it will connect the container
