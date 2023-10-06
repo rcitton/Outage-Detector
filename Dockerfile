@@ -8,7 +8,6 @@ LABEL \
   created=$BUILD_DATE
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Rome
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

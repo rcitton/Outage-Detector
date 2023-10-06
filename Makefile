@@ -76,7 +76,7 @@ create:
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
             --env OUTAGE_CHECK=5 \
-            --env TZ=$(HOUSE_ADDRESS) \
+            --env TZ=$(TZ) \
 			$(IMGNME):$(IMGVRS)
     else
 		$(RUNTIMECT) create -t -i \
@@ -94,7 +94,7 @@ create:
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
             --env OUTAGE_CHECK=5 \
-            --env TZ=$(HOUSE_ADDRESS) \
+            --env TZ=$(TZ) \
 			$(IMGNME):$(IMGVRS)
     endif
 
