@@ -106,7 +106,7 @@ create: ## 🇨 Create
 			$(IMGNME):$(IMGVRS)
     endif
 
-start: ## 🚀
+start: ## 🚀 Start
 	@echo "STARTING UP CONTAINER $(CONTAINER)"
 	$(RUNTIMECT) start $(CONTAINER)
 
