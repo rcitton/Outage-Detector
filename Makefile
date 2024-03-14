@@ -53,7 +53,7 @@ COLOUR_END=\033[0m
 .PHONY: help
 help:
 	@echo "$(COLOUR_GREEN)------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)IP Change Check Commands$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)Outage Detector Commands$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------$(COLOUR_END)"
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sed -n 's/^\(.*\): \(.*\)##\(.*\)/\1\3/p' \
@@ -79,14 +79,14 @@ create: ## 🇨 Create
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
 			--label com.centurylinklabs.watchtower.enable="false" \
-            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
-            --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
-            --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
-            --env MAIL_PASSWORD=$(MAIL_PASSWORD) \
-            --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
-            --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
-            --env OUTAGE_CHECK=5 \
-            --env TZ=$(TZ) \
+			--env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
+			--env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
+			--env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
+			--env MAIL_PASSWORD=$(MAIL_PASSWORD) \
+			--env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
+			--env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
+			--env OUTAGE_CHECK=$(OUTAGE_CHECK) \
+			--env TZ=$(TZ) \
 			$(IMGNME):$(IMGVRS)
     else
 		$(RUNTIMECT) create -t -i \
@@ -95,14 +95,14 @@ create: ## 🇨 Create
 			--volume /etc/localtime:/etc/localtime:ro \
 			--restart=always \
 			--label com.centurylinklabs.watchtower.enable="false" \
-            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
-            --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
-            --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
-            --env MAIL_PASSWORD=$(MAIL_PASSWORD) \
-            --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
-            --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
-            --env OUTAGE_CHECK=5 \
-            --env TZ=$(TZ) \
+			--env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
+			--env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
+			--env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
+			--env MAIL_PASSWORD=$(MAIL_PASSWORD) \
+			--env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
+			--env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
+			--env OUTAGE_CHECK=$(OUTAGE_CHECK) \
+			--env TZ=$(TZ) \
 			$(IMGNME):$(IMGVRS)
     endif
 
