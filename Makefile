@@ -36,29 +36,41 @@
 include ./env.mk
 
 
-###########################
-CONTAINER=outage-detector
-IMGNME=outage-detector
-IMGVRS=1.0.0
-DOCKER=/usr/bin/docker
-PODMAN=/usr/bin/podman
-RUNTIMECT=$(DOCKER)
 
+###########################
+## Colors definition     ##
+###########################
+COLOUR_GREEN=\033[0;32m
+COLOUR_RED=\033[0;31m
+COLOUR_YELLOW=\033[0;33m
+COLOUR_BLUE=\033[0;34m
+COLOUR_END=\033[0m
+
+###########################
+## Help Setup            ##
+###########################
+.DEFAULT_GOAL := help
+.PHONY: help
+help:
+	@echo "$(COLOUR_GREEN)------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)IP Change Check Commands$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------$(COLOUR_END)"
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	| sed -n 's/^\(.*\): \(.*\)##\(.*\)/\1\3/p' \
+	| column -t  -s ' '
 
 ###############################################################################
 #                             DOCKER/PODMAN SECTION                           #
 ###############################################################################
 
-all: build \
-	create \
-	start
+all: build  create start ## ✅ Build&Setup
 
-build:
+build: ## 🏗️ ️Build
 	@echo "Make CONTAINER $(CONTAINER)"
 	$(RUNTIMECT) build --force-rm=true \
 	--no-cache=true -t $(IMGNME):$(IMGVRS) -f Dockerfile .
 
-create:
+create: ## 🇨 Create
 	@echo "Create CONTAINER $(CONTAINER)"
     ifeq ($(RUNTIMECT),/usr/bin/docker)
 		$(RUNTIMECT) create -t -i \
@@ -71,8 +83,6 @@ create:
             --env SENDER_MAIL_ADDRESS=$(SENDER_MAIL_ADDRESS) \
             --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
             --env MAIL_PASSWORD=$(MAIL_PASSWORD) \
-            --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
-            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
             --env OUTAGE_CHECK=5 \
@@ -90,44 +100,42 @@ create:
             --env RECEIVER_MAIL_ADDRESSES=$(RECEIVER_MAIL_ADDRESSES) \
             --env MAIL_PASSWORD=$(MAIL_PASSWORD) \
             --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
-            --env NOTIFICATION_TYPE=$(NOTIFICATION_TYPE) \
-            --env NOTIFICATION_PASSWORD=$(NOTIFICATION_PASSWORD) \
             --env HOUSE_ADDRESS=$(HOUSE_ADDRESS) \
             --env OUTAGE_CHECK=5 \
             --env TZ=$(TZ) \
 			$(IMGNME):$(IMGVRS)
     endif
 
-start:
+start: ## 🚀
 	@echo "STARTING UP CONTAINER $(CONTAINER)"
 	$(RUNTIMECT) start $(CONTAINER)
 
-stop:
+stop: ## 🛑 Stop
 	@echo "STOPPING CONTAINER $(CONTAINER)"
 	$(RUNTIMECT) stop $(CONTAINER)
 
-clean:
+Cleanup: ## 🧹 Cleanup
 	@echo "Cleanup CONTAINER $(CONTAINER)"
 	-$(RUNTIMECT) stop $(CONTAINER)
 	-$(RUNTIMECT) rm $(CONTAINER)
 	$(RUNTIMECT) rmi $(IMGNME):$(IMGVRS)
 
-connect:
+connect: ## 🖧 Connect
 	$(RUNTIMECT) exec -it $(CONTAINER) bash
 
-testnone:
+testnone: ## 🧪 Test
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \
 		--notify none
-		
-testpb:
+
+testpb: ## 🧪 Test Pushbullet
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \
 		--notify pushbullet
 
-testit:
+testit: ## 🧪 Test ifttt
 	$(RUNTIMECT) exec -it $(CONTAINER) \
 		/usr/local/bin/python /usr/local/bin/outage_detector \
 		--run boot \

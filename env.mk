@@ -29,6 +29,20 @@
 # SOFTWARE.
 # ------------------------------------------------------------------------------
 
+###########################
+CONTAINER=outage-detector
+IMGNME=outage-detector
+IMGVRS=1.0.0
+DOCKER=/usr/bin/docker
+PODMAN=/usr/bin/podman
+###########################
+RUNTIMECT=$(DOCKER)
+###########################
+
+
+###########################
+##Notification Setup
+###########################
 SENDER_MAIL_ADDRESS=
 RECEIVER_MAIL_ADDRESSES=
 MAIL_PASSWORD=
