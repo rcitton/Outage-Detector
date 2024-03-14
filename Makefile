@@ -114,7 +114,7 @@ stop: ## 🛑 Stop
 	@echo "STOPPING CONTAINER $(CONTAINER)"
 	$(RUNTIMECT) stop $(CONTAINER)
 
-Cleanup: ## 🧹 Cleanup
+cleanup: ## 🧹 Cleanup
 	@echo "Cleanup CONTAINER $(CONTAINER)"
 	-$(RUNTIMECT) stop $(CONTAINER)
 	-$(RUNTIMECT) rm $(CONTAINER)
